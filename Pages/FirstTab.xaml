@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TemplateSelectorHeightIssue.Pages.FirstTab"
+             xmlns:controls="clr-namespace:TemplateSelectorHeightIssue.Controls"
+             xmlns:selectors="clr-namespace:TemplateSelectorHeightIssue.Selectors"
+             Title="FirstTab">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="GridPart">
+                <controls:GridControl />
+            </DataTemplate>
+
+            <DataTemplate x:Key="ScrollPart">
+                <controls:ScrollControl />
+            </DataTemplate>
+
+            <selectors:CarouselSelector x:Key="TemplateSelector"
+                                        Grid="{StaticResource GridPart}"
+                                        Scroll="{StaticResource ScrollPart}"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid RowDefinitions="Auto,300,*,10">
+        <Label Grid.Row="0"
+               Text="Demonstration of the issue"
+               FontSize="Title"
+               HorizontalOptions="Center" />
+
+        <Image Grid.Row="1"
+               Source="dotnet_bot.png"
+               SemanticProperties.Description="Cute dot net bot waving hi to you!"
+               HeightRequest="200"
+               HorizontalOptions="Center" />
+
+        <CarouselView Grid.Row="2"
+                      ItemsSource="{Binding CarouselSections}"
+                      ItemTemplate="{StaticResource TemplateSelector}"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      IndicatorView="Indicator"/>
+
+        <IndicatorView Grid.Row="3"
+                       Count="{Binding CarouselSections.Count}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       x:Name="Indicator"/>
+    </Grid>
+</ContentPage>
